@@ -72,6 +72,12 @@ public class SalaController {
 	
 	}
 	
+	@GetMapping("/ordenadas")
+    public List<Sala> getSalasOrdenadas() {
+        return salaService.getSalasOrdenadasPorNombre();
+    }
+
+	
 	@PostMapping
 	public ResponseEntity<APIResponse<Sala>> crearSala(@RequestBody Sala sala) {
 		

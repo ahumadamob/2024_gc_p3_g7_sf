@@ -11,5 +11,6 @@ public interface ISalaService {
 	public List<Sala> mostrarTodos();
 	public boolean exist(Integer id);
 	public List<Sala>mostrarPorDisponibles(boolean disponible);
+	public List<Sala> getSalasOrdenadasPorNombre();
 	
 }
