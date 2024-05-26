@@ -1,5 +1,6 @@
 package imb.gc4.turnero.service.jpa;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,10 @@ public class TurnoServiceImplJpa implements ITurnoService{
 	public boolean existe(Integer id) {
 	    return (id == null) ? false: repo.existsById(id);
 	}
+	
+	@Override
+    public List<Turno> filtrarPorFecha(LocalDateTime startDate, LocalDateTime endDate) {
+        return repo.findByFechaYHoraBetween(startDate, endDate);
+    }
 
 }

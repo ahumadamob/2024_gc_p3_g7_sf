@@ -1,5 +1,6 @@
 package imb.gc4.turnero.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import imb.gc4.turnero.entity.Turno;
@@ -96,6 +98,18 @@ public class TurnoController {
 	@ExceptionHandler(ConstraintViolationException.class)
 	public ResponseEntity<APIResponse<Object>> handleConstraintViolationException(ConstraintViolationException ex){
 		return ResponseUtil.handleConstraintException(ex);
+	}
+
+	
+	@GetMapping("/filtrar-por-fecha")
+	public ResponseEntity<APIResponse<List<Turno>>> filtrarTurnosPorFecha(
+	    @RequestParam(name = "fechaInicio") LocalDateTime fechaInicio,
+	    @RequestParam(name = "fechaFin") LocalDateTime fechaFin
+	) {
+	    List<Turno> turnosFiltrados = turnoService.filtrarPorFecha(fechaInicio, fechaFin);
+	    return (turnosFiltrados.isEmpty())
+	            ? ResponseUtil.notFound("No se encontraron turnos en el rango de fechas especificado.")
+	            : ResponseUtil.success(turnosFiltrados);
 	}
 
 
