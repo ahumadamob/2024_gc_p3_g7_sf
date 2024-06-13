@@ -44,4 +44,9 @@ public class PacienteServiceImplJpa implements IPacienteService {
 		return (id == null)? false: repo.existsById(id);
 		
 	}
+	
+	@Override
+	public List<Paciente> filtrarPorNombre(String filtro){
+		return repo.filtrarPaciente(filtro);
+	}
 }

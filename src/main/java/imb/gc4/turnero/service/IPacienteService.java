@@ -12,4 +12,5 @@ public interface IPacienteService {
 	public void eliminarPaciente(Integer id);
 	public boolean exists(Integer id);
 	
+	public List<Paciente> filtrarPorNombre(String filtro);
 }

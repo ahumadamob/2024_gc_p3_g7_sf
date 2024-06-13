@@ -44,6 +44,17 @@ public class PacienteController {
 				: ResponseUtil.notFound("No se encontró el paciente con id = " + id.toString() + ".");
 	
 	}
+	@GetMapping("/nombre/{filtro}")
+	public ResponseEntity<APIResponse<List<Paciente>>> buscarPacientePorNombre(@PathVariable("filtro") String filtro){
+		List<Paciente> filtrar = pacienteServicio.filtrarPorNombre(filtro);
+		if (filtrar != null) {
+			return ResponseUtil.success(pacienteServicio.filtrarPorNombre(filtro));
+		}
+		else {
+			return ResponseUtil.notFound("No se encontro");
+		}
+	}
+	
 	
 
 	// Con la notación @PostMapping indicamos que el siguiente método recibirá solicitudes HTTP POST.
