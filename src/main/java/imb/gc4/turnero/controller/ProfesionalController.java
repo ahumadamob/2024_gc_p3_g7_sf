@@ -1,8 +1,10 @@
 package imb.gc4.turnero.controller;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -38,6 +40,25 @@ public class ProfesionalController {
 		}
 	}
 	
+	
+	 @GetMapping("/ordenado")
+	    public ResponseEntity<APIResponse<List<Profesional>>> buscarOrdenadosPorApellido() {
+	        List<Profesional> profesionales = profesionalService.buscarOrdenadosPorApellido();
+	        
+	        if (profesionales != null && !profesionales.isEmpty()) {
+	            profesionales.sort(Comparator.comparing(Profesional::getApellidoProfesional));
+	        }
+	        
+	        APIResponse<List<Profesional>> response = new APIResponse<>(200, null, profesionales);
+	        return ResponseEntity.status(HttpStatus.OK).body(response);
+	    } 
+	 
+	 //@GetMapping("/ordenados") 
+	  //  public ResponseEntity<APIResponse<List<Profesional>>> buscarOrdenadosPorApellido() {
+	    //    List<Profesional> profesionales = profesionalService.buscarOrdenadosPorApellido();
+	      // APIResponse<List<Profesional>> response = new APIResponse<>(200, null, profesionales);
+	       // return ResponseEntity.status(HttpStatus.OK).body(response);
+	    //}
 	
 	// Esta es una anotacion que indica que responde a una solicitud http con un marcador de posicion (ID)
 	@GetMapping("/{id}")
