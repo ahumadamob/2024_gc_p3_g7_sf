@@ -12,7 +12,6 @@ import imb.gc4.turnero.service.IPacienteService;
 
 
 @Service
-@Primary
 public class PacienteServiceImplJpa implements IPacienteService {
 	
 	@Autowired
@@ -40,8 +39,14 @@ public class PacienteServiceImplJpa implements IPacienteService {
 		
 	}
 	
+	@Override
 	public boolean exists(Integer id) {
 		return (id == null)? false: repo.existsById(id);
 		
+	}
+	
+	@Override
+	public List<Paciente> filtrarPorNombre(String filtro){
+		return repo.findByNombre(filtro);
 	}
 }
