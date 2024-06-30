@@ -23,57 +23,59 @@ import jakarta.validation.ConstraintViolationException;
 @RestController
 @RequestMapping("/api/v1/paciente")
 public class PacienteController {
-	
+
 	@Autowired
 	IPacienteService pacienteServicio;
-	
+
 	@GetMapping
-	public ResponseEntity<APIResponse<List<Paciente>>> mostrarTodos() {		
+	public ResponseEntity<APIResponse<List<Paciente>>> mostrarTodos() {
 		List<Paciente> pacientes = pacienteServicio.buscarPacientes();
-		if(pacientes.isEmpty()) {
+		if (pacientes.isEmpty()) {
 			return ResponseUtil.notFound("No se encontraron pacientes.");
 		} else {
 			return ResponseUtil.success(pacientes);
 		}
 	}
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<APIResponse<Paciente>> mostrarPacientePorId(@PathVariable("id") Integer id) {
-		return (pacienteServicio.exists(id))
-				? ResponseUtil.success(pacienteServicio.buscarPacientePorId(id))
+		return (pacienteServicio.exists(id)) ? ResponseUtil.success(pacienteServicio.buscarPacientePorId(id))
 				: ResponseUtil.notFound("No se encontró el paciente con id = " + id.toString() + ".");
-	
+
 	}
+
 	@GetMapping("/nombre/{filtro}")
-	public ResponseEntity<APIResponse<List<Paciente>>> buscarPacientePorNombre(@PathVariable("filtro") String filtro){
+	public ResponseEntity<APIResponse<List<Paciente>>> buscarPacientePorNombre(@PathVariable("filtro") String filtro) {
 		List<Paciente> filtrar = pacienteServicio.filtrarPorNombre(filtro);
-		if (filtrar != null) {
+		if (filtrar.isEmpty()) {
+			return ResponseUtil.notFound("No se encontro");
+		} else {
 			return ResponseUtil.success(pacienteServicio.filtrarPorNombre(filtro));
 		}
-		else {
-			return ResponseUtil.notFound("No se encontro");
-		}
 	}
-	
-	
 
-	// Con la notación @PostMapping indicamos que el siguiente método recibirá solicitudes HTTP POST.
+	// Con la notación @PostMapping indicamos que el siguiente método recibirá
+	// solicitudes HTTP POST.
 	@PostMapping
-	
-	// El método llamado 'crearPaciente' recibe un objeto 'Paciente', el cual se incluirá en el cuerpo de la solicitud HTTP.
-	// Además, el método devuelve un 'ResponseEntity' (que contiene un objeto de tipo 'APIResponse') parametrizado con 'Paciente'.
+
+	// El método llamado 'crearPaciente' recibe un objeto 'Paciente', el cual se
+	// incluirá en el cuerpo de la solicitud HTTP.
+	// Además, el método devuelve un 'ResponseEntity' (que contiene un objeto de
+	// tipo 'APIResponse') parametrizado con 'Paciente'.
 	public ResponseEntity<APIResponse<Paciente>> crearPaciente(@RequestBody Paciente paciente) {
-		
-		// Verificamos si existe un paciente en función de su ID, en caso de existir, devolvemos una respuesta de error,
-		// si aún no existe, lo guardamos en el método 'guardarPaciente' y devolvemos una respuesta existosa mediante
+
+		// Verificamos si existe un paciente en función de su ID, en caso de existir,
+		// devolvemos una respuesta de error,
+		// si aún no existe, lo guardamos en el método 'guardarPaciente' y devolvemos
+		// una respuesta existosa mediante
 		// el 'ResponseUtil.created(...)'.
-		return (pacienteServicio.exists(paciente.getId())) ?  ResponseUtil.badRequest("Ya existe un paciente.") : 
-			ResponseUtil.created(pacienteServicio.guardarPaciente(paciente));	
+		return (pacienteServicio.exists(paciente.getId())) ? ResponseUtil.badRequest("Ya existe un paciente.")
+				: ResponseUtil.created(pacienteServicio.guardarPaciente(paciente));
 	}
-	
-	@PutMapping	
+
+	@PutMapping
 	public ResponseEntity<APIResponse<Paciente>> modificarPaciente(@RequestBody Paciente paciente) {
-		if(pacienteServicio.exists(paciente.getId())) {
+		if (pacienteServicio.exists(paciente.getId())) {
 			return ResponseUtil.created(pacienteServicio.guardarPaciente(paciente));
 		} else if (paciente.getId() == null) {
 			return ResponseUtil.badRequest("No ingresaste id de paciente para modificarlo.");
@@ -81,19 +83,19 @@ public class PacienteController {
 			return ResponseUtil.badRequest("No existe un paciente con el id = " + paciente.getId().toString() + ".");
 		}
 	}
-	
-	@DeleteMapping("/{id}")	
+
+	@DeleteMapping("/{id}")
 	public ResponseEntity<APIResponse<String>> eliminarPaciente(@PathVariable("id") Integer id) {
-		if(pacienteServicio.exists(id)) {
+		if (pacienteServicio.exists(id)) {
 			pacienteServicio.eliminarPaciente(id);
 			return ResponseUtil.success("El paciente con id = " + id.toString() + " ha sido eliminado.");
 		} else {
 			return ResponseUtil.badRequest("No existe un paciente con el id = " + id.toString() + ".");
 		}
 	}
-	
+
 	@ExceptionHandler(ConstraintViolationException.class)
-	public ResponseEntity<APIResponse<Object>> handleConstrainViolationException(ConstraintViolationException ex){
+	public ResponseEntity<APIResponse<Object>> handleConstrainViolationException(ConstraintViolationException ex) {
 		return ResponseUtil.handleConstraintException(ex);
 	}
 }

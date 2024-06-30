@@ -9,5 +9,5 @@ import imb.gc4.turnero.entity.Paciente;
 
 public interface PacienteRepository extends JpaRepository<Paciente, Integer>{
 	
-	public List<Paciente> filtrarPaciente(String filtro);
+	public List<Paciente> findByNombre(String filtro);
 }
