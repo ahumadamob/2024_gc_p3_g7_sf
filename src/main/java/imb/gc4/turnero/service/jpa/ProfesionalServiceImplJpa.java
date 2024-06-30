@@ -19,6 +19,8 @@ public class ProfesionalServiceImplJpa implements IProfesionalService {
 	
 	@Autowired
 	ProfesionalRepository repo;
+	 
+
 
 	@Override
 	public List<Profesional> buscar() {		
@@ -47,5 +49,12 @@ public class ProfesionalServiceImplJpa implements IProfesionalService {
 	public boolean exists(Integer id) {
 		return(id == null)? false : repo.existsById(id);
 	}
+
+	@Override
+	public List<Profesional> buscarOrdenadosPorApellido() {
+        return repo.findAllByOrderByApellidoProfesionalAsc();
+    }
+	
+	
 
 }
