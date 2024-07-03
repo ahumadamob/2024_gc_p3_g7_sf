@@ -10,7 +10,8 @@ public interface IMutualService {
 	public Mutual obtenerPorId(Integer id);
 	public Mutual guardar(Mutual mutual);
 	public boolean exists(Integer id);
+	public boolean existsBeneficio(String beneficio);
 	public void eliminar(Integer id);
-
+	public List<Mutual> filtrarPorBeneficio(String beneficio);
 	
 }

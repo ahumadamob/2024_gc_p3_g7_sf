@@ -37,12 +37,24 @@ public class MutualServiceImplJpa implements IMutualService {
 	@Override
 	public boolean exists(Integer id) {
 		return (id==null)? false: repo.existsById(id);
-		
-	};
-
+	}
 	@Override
 	public void eliminar(Integer id) {
 	repo.deleteById(id);
+	}
+
+	@Override
+	public boolean existsBeneficio(String beneficio) {
+		if (beneficio == null) {
+            return false;
+        }
+        List<Mutual> mutuales = repo.findByBeneficiosContaining(beneficio);
+        return !mutuales.isEmpty();
+	}
+
+	@Override
+	public List<Mutual> filtrarPorBeneficio(String beneficio) {
+		return repo.findByBeneficiosContaining(beneficio);
 	}
 
 
