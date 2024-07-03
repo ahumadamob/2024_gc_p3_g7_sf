@@ -45,6 +45,10 @@ public class Paciente {
 	@JoinColumn(name = "mutualId")
 	private Mutual mutual;
 	
+	@NotNull(message = "Debe definir el estado del paciente si activo o inactivo")
+	@Size(max = 15, message = "Debe ser activo o inactivo el valor asignado")
+	private String estado;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -81,5 +85,10 @@ public class Paciente {
 	public void setFechaNacimiento(LocalDate fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
-	
+	public String getEstado() {
+		return estado;
+	}
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
 }
