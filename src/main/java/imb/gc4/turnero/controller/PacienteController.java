@@ -83,7 +83,17 @@ public class PacienteController {
 			return ResponseUtil.badRequest("No existe un paciente con el id = " + paciente.getId().toString() + ".");
 		}
 	}
-
+	
+	@PutMapping("/actualizar-estado")
+	public ResponseEntity<APIResponse<Paciente>> actualizarEstadoPaciente(@RequestBody Paciente paciente){
+		if(pacienteServicio.exists(paciente.getId())) {
+			return ResponseUtil.created(pacienteServicio.actualizarEstado(paciente.getId(), paciente.getEstado()));
+		}else {
+			return ResponseUtil.badRequest("Esta mal");
+		}
+	}	
+	
+	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<APIResponse<String>> eliminarPaciente(@PathVariable("id") Integer id) {
 		if (pacienteServicio.exists(id)) {

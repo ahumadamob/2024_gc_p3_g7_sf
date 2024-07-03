@@ -49,4 +49,11 @@ public class PacienteServiceImplJpa implements IPacienteService {
 	public List<Paciente> filtrarPorNombre(String filtro){
 		return repo.findByNombre(filtro);
 	}
+	
+	@Override
+	public Paciente actualizarEstado (Integer id, String estado) {
+		Paciente paciente = buscarPacientePorId(id);
+		paciente.setEstado(estado);
+		return repo.save(paciente);
+	}
 }
