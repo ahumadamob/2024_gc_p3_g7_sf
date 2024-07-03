@@ -13,4 +13,6 @@ public interface IPacienteService {
 	public boolean exists(Integer id);
 	
 	public List<Paciente> filtrarPorNombre(String filtro);
+	public Paciente actualizarEstado (Integer id, String estado);
+
 }
