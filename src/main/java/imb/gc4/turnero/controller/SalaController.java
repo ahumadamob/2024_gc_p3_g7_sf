@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import imb.gc4.turnero.entity.Sala;
+import imb.gc4.turnero.repository.SalaRepository;
 import imb.gc4.turnero.service.ISalaService;
 import imb.gc4.turnero.util.APIResponse;
 import imb.gc4.turnero.util.ResponseUtil;
@@ -29,7 +30,7 @@ public class SalaController {
 	
 	@Autowired
 	ISalaService salaService;
-	
+	SalaRepository repo;
 	@GetMapping
 	public ResponseEntity<APIResponse<List<Sala>>> mostrarTodasLasSalas() {
 		List<Sala> sala = salaService.mostrarTodos();
@@ -71,6 +72,18 @@ public class SalaController {
 		}
 	
 	}
+	
+
+
+	@GetMapping("/ordernadas")
+	public ResponseEntity<APIResponse<List<Sala>>> findByIdOrderByNombreAsc() {
+    List<Sala> salas = salaService.findAllByOrderByNombreAsc();
+    if (salas.isEmpty()) {
+        return ResponseUtil.notFound("No se encontraron salas ordenadas");
+    } else {
+        return ResponseUtil.success(salas);
+    }
+}
 	
 	@PostMapping
 	public ResponseEntity<APIResponse<Sala>> crearSala(@RequestBody Sala sala) {

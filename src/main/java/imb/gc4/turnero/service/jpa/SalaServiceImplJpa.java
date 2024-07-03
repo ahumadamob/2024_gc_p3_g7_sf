@@ -50,5 +50,10 @@ public class SalaServiceImplJpa implements ISalaService {
 	public List<Sala> mostrarPorDisponibles(boolean disponible) {
 		return repo.findByDisponibles(disponible);
 	}
+	
+	@Override
+	public List<Sala> findAllByOrderByNombreAsc(){
+		return repo.findAllByOrderByNombreAsc();
+	}
 
 }
