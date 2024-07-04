@@ -27,18 +27,19 @@ public class MutualController {
 	@Autowired
 	IMutualService mutualService;
 	
-	@GetMapping
-	public ResponseEntity<APIResponse<List<Mutual>>> mostrarTodasLasMutuales() {
-		List<Mutual> mutual = mutualService.obtenerTodas();
-		return (mutual.isEmpty()) ? ResponseUtil.notFound("No posee mutual")
-		: ResponseUtil.success(mutual);
-		}
+	@GetMapping("/beneficio/{beneficio}")
+	public ResponseEntity<APIResponse<List<Mutual>>> mostrarMutualPorBeneficio(@PathVariable("beneficio") String beneficio) {
+		return(mutualService.existsBeneficio(beneficio)) ? ResponseUtil.success(mutualService.filtrarPorBeneficio(beneficio))
+		: ResponseUtil.badRequest("No se encontró el beneficio ingresado");
+	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<APIResponse<Mutual>> mostrarMutualPorId(@PathVariable("id") Integer id) {
 		return(mutualService.exists(id)) ? ResponseUtil.success(mutualService.obtenerPorId(id))
 		: ResponseUtil.badRequest("No se encontró la mutual, revise el parámetro");
 	}
+	
+	
 		
 	@PostMapping
 	public ResponseEntity<APIResponse<Mutual>> crearMutual(@RequestBody Mutual mutual) {
