@@ -24,5 +24,6 @@ public class GlobalExceptionHandler {
         APIResponse<Object> response = new APIResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),Collections.singletonList(ex.getMessage()), null);
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    
 }
 
