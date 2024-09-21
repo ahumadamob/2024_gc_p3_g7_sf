@@ -6,7 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +22,7 @@ import imb.gc4.turnero.entity.Profesional;
 import imb.gc4.turnero.service.IProfesionalService;
 import imb.gc4.turnero.util.APIResponse;
 import imb.gc4.turnero.util.ResponseUtil;
+import jakarta.validation.Valid;
 
 
 
@@ -64,16 +68,26 @@ public class ProfesionalController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<APIResponse<Profesional>> crearProfesional(@RequestBody Profesional profesional) {
+	public ResponseEntity<APIResponse<Profesional>> crearProfesional(@Valid @RequestBody Profesional profesional, BindingResult result) {
+		if(result.hasErrors()) {
+			return ResponseUtil.badRequest("Error en la validacion");
+		}else {
 		return (profesionalService.exists(profesional.getId()))? ResponseUtil.badRequest("Ya Existe un Profesor")
 				: ResponseUtil.created(profesionalService.guardar(profesional));			
+		}
 	}
+		
 	
 	@PutMapping	
-	public ResponseEntity<APIResponse<Profesional>> modificarProfesional(@RequestBody Profesional profesional) {
+	public ResponseEntity<APIResponse<Profesional>> modificarProfesional(@Valid @RequestBody Profesional profesional, BindingResult result) {
+		if(result.hasErrors()) {
+			return ResponseUtil.badRequest("Error en la validacion");
+		}else {
 		return (profesionalService.exists(profesional.getId()))? ResponseUtil.created(profesionalService.guardar(profesional))
 				:ResponseUtil.notFound("No existe un profesional con el ID identificado");
+		}
 	}
+	
 	
 	@DeleteMapping("/{id}")	
 	public ResponseEntity<APIResponse<String>> eliminarProfesional(@PathVariable("id") Integer id) {
@@ -84,5 +98,7 @@ public class ProfesionalController {
 	        return ResponseUtil.badRequest("No existe una Profesional con el Id especificado");
 	    }
 	}
-
 }
+
+
+	
