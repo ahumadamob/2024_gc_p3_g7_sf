@@ -33,6 +33,11 @@ public class MutualController {
 		: ResponseUtil.badRequest("No se encontró el beneficio ingresado");
 	}
 	
+	@GetMapping("/buscarMutual/{mutual}")
+	public List<Mutual> buscarPorMutual(@PathVariable("mutual") String mutual){
+		return mutualService.filtrarPorMutual("%" + mutual + "%");
+	}
+	
 	@GetMapping("/{id}")
 	public ResponseEntity<APIResponse<Mutual>> mostrarMutualPorId(@PathVariable("id") Integer id) {
 		return(mutualService.exists(id)) ? ResponseUtil.success(mutualService.obtenerPorId(id))

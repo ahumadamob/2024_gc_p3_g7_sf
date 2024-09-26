@@ -57,5 +57,10 @@ public class MutualServiceImplJpa implements IMutualService {
 		return repo.findByBeneficiosContaining(beneficio);
 	}
 
+	@Override
+	public List<Mutual> filtrarPorMutual(String mutual) {
+		return repo.findByBeneficiosContaining(mutual);
+	}
+
 
 }
