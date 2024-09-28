@@ -11,6 +11,6 @@ public interface IProfesionalService {
 	public void eliminar(Integer id);
 	public boolean exists(Integer id);
 	public List<Profesional> buscarOrdenadosPorApellido();
-
+	public List<Profesional> filtrarPorNombre(String filtro);
 }
 

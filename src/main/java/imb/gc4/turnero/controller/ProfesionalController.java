@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import imb.gc4.turnero.entity.Paciente;
 import imb.gc4.turnero.entity.Profesional;
+import imb.gc4.turnero.exception.ProfesionalExc;
 import imb.gc4.turnero.service.IProfesionalService;
 import imb.gc4.turnero.util.APIResponse;
 import imb.gc4.turnero.util.ResponseUtil;
@@ -67,10 +69,17 @@ public class ProfesionalController {
 				: ResponseUtil.notFound("No se encontro el profesional"));
 	}
 	
+	@GetMapping("/filtrar/{nombre}")
+	public ResponseEntity<APIResponse<List<Profesional>>> buscarProfesionalPorNombre(@PathVariable("nombre") String nombre){
+		List<Profesional> filtrar = profesionalService.filtrarPorNombre(nombre);
+		return (filtrar.isEmpty()) ? ResponseUtil.notFound("No se ha encontrado a nadie con ese nombre") 
+				: ResponseUtil.success(profesionalService.filtrarPorNombre(nombre));
+	}
+	
 	@PostMapping
 	public ResponseEntity<APIResponse<Profesional>> crearProfesional(@Valid @RequestBody Profesional profesional, BindingResult result) {
 		if(result.hasErrors()) {
-			return ResponseUtil.badRequest("Error en la validacion");
+			throw new ProfesionalExc("Error en la validacion");
 		}else {
 		return (profesionalService.exists(profesional.getId()))? ResponseUtil.badRequest("Ya Existe un Profesor")
 				: ResponseUtil.created(profesionalService.guardar(profesional));			
@@ -81,7 +90,7 @@ public class ProfesionalController {
 	@PutMapping	
 	public ResponseEntity<APIResponse<Profesional>> modificarProfesional(@Valid @RequestBody Profesional profesional, BindingResult result) {
 		if(result.hasErrors()) {
-			return ResponseUtil.badRequest("Error en la validacion");
+			throw new ProfesionalExc("Error en la validacion");
 		}else {
 		return (profesionalService.exists(profesional.getId()))? ResponseUtil.created(profesionalService.guardar(profesional))
 				:ResponseUtil.notFound("No existe un profesional con el ID identificado");
@@ -98,6 +107,9 @@ public class ProfesionalController {
 	        return ResponseUtil.badRequest("No existe una Profesional con el Id especificado");
 	    }
 	}
+	
+	
+	
 }
 
 
