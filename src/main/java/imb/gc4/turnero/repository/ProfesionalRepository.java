@@ -9,6 +9,5 @@ import imb.gc4.turnero.entity.Profesional;
 public interface ProfesionalRepository extends JpaRepository<Profesional, Integer> {
 	
 	List<Profesional> findAllByOrderByApellidoProfesionalAsc();
-
+	List<Profesional> findByNombreProfesional(String nombre);
 }
-

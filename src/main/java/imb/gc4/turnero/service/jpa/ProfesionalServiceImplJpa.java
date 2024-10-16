@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import imb.gc4.turnero.entity.Paciente;
 import imb.gc4.turnero.entity.Profesional;
 import imb.gc4.turnero.repository.ProfesionalRepository;
 import imb.gc4.turnero.service.IProfesionalService;
@@ -55,6 +56,9 @@ public class ProfesionalServiceImplJpa implements IProfesionalService {
         return repo.findAllByOrderByApellidoProfesionalAsc();
     }
 	
-	
+	@Override
+	public List<Profesional> filtrarPorNombre(String nombre){
+		return repo.findByNombreProfesional(nombre);
+	}
 
 }

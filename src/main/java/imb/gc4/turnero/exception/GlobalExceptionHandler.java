@@ -19,7 +19,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<APIResponse<Object>> handleConstraintViolationException(ConstraintViolationException ex, WebRequest request){
         return ResponseUtil.handleConstraintException(ex);
     }
-    
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<APIResponse<Object>> handleGeneralException(Exception ex, WebRequest request) {
