@@ -1,13 +1,13 @@
 package imb.gc4.turnero.util;
 
 public class ErrorResponse {
-	private String error;
-	private String message;
-	
-	public ErrorResponse(String error, String message) {
-		this.error = error;
-		this.message = message;
-	}
+	 private String error;
+	 private String message;
+	 
+	 public ErrorResponse(String error, String message) {
+	        this.error = error;
+	        this.message = message;
+	    }
 
 	public String getError() {
 		return error;
@@ -21,9 +21,9 @@ public class ErrorResponse {
 		return message;
 	}
 
-	public void setMenssage(String message) {
+	public void setMessage(String message) {
 		this.message = message;
 	}
-	
-	
+	 
+
 }

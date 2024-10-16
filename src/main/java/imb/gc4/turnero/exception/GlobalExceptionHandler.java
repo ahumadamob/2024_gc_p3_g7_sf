@@ -19,18 +19,17 @@ public class GlobalExceptionHandler {
     public ResponseEntity<APIResponse<Object>> handleConstraintViolationException(ConstraintViolationException ex, WebRequest request){
         return ResponseUtil.handleConstraintException(ex);
     }
-    
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<APIResponse<Object>> handleGeneralException(Exception ex, WebRequest request) {
         APIResponse<Object> response = new APIResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),Collections.singletonList(ex.getMessage()), null);
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
-    @ExceptionHandler(ProfesionalExc.class)
-    public ResponseEntity<ErrorResponse> handlePacienteException(ProfesionalExc ex) {
+    @ExceptionHandler(PacienteException.class)
+    public ResponseEntity<ErrorResponse> handlePacienteException(PacienteException ex) {
         ErrorResponse errorResponse = new ErrorResponse("Error en Paciente", ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
-    
 }
 
