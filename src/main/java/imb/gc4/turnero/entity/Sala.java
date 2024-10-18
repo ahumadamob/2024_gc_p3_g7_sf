@@ -1,18 +1,13 @@
 package imb.gc4.turnero.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
-public class Sala {
+public class Sala extends BaseEntity {
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
+	
 	@NotBlank(message = "El nombre no puede estar vacío")
 	@Size(max = 20, message = "El nombre no debe superar los 20 caracteres")
 	private	String nombre;
@@ -21,13 +16,6 @@ public class Sala {
 	@Size(max = 30, message = "La ubicacion no debe superar los 30 caracteres")
 	private String ubicacion;
 	
-	
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
 	public String getNombre() {
 		return nombre;
 	}
