@@ -47,6 +47,14 @@ public class EspecialidadController {
 	
 	}
 	
+	@GetMapping("/filtrarEspecialidad/{especialidad}")
+	public List<Especialidad> filtrarPorEspecialidad(@PathVariable("especialidad") String especialidad){
+		
+		return especialidadService.filtrarPorEsecialidad(especialidad);
+		
+	}
+	
+	
 	@GetMapping("/{id}")
 	public ResponseEntity<APIResponse<Especialidad>> mostrarTipoEspecialidadPorId(@PathVariable("id") Integer id) {
 		

@@ -45,4 +45,10 @@ public class EspecialidadServiceImplJpa implements IEspecialidadService {
 		return (id == null)? false : repo.existsById(id);
 	}
 
+	@Override
+	public List<Especialidad> filtrarPorEsecialidad(String especialidad) {
+	
+		return repo.findByEspecialidad(especialidad);
+	}
+
 }

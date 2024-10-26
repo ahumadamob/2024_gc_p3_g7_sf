@@ -11,6 +11,6 @@ public interface IEspecialidadService {
 	public Especialidad guardar(Especialidad especialidad);
 	public void eliminar(Integer id);
 	public boolean exists (Integer id);
-	
+	public List<Especialidad> filtrarPorEsecialidad(String especialidad);
 
 }
