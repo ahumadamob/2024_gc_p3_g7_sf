@@ -8,6 +8,6 @@ import imb.gc4.turnero.entity.Especialidad;
 
 public interface EspecialidadRepository extends JpaRepository<Especialidad, Integer> {
 	
-	List<Especialidad> findByEspecialidad(String especialidad);
+	List<Especialidad> findByNombre(String nombre);
 
 }
