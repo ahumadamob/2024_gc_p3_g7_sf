@@ -3,9 +3,6 @@ package imb.gc4.turnero.entity;
 import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
@@ -14,12 +11,8 @@ import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
 @Entity
-public class Paciente {
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
-	
+public class Paciente extends BaseEntity{
+
 	@NotBlank(message = "El nombre no puede estar vacío.")
 	@Size(max = 40, message = "El nombre no debe superar los 40 caracteres.")
 	private String nombre;
@@ -49,12 +42,8 @@ public class Paciente {
 	@Size(max = 15, message = "Debe ser activo o inactivo el valor asignado")
 	private String estado;
 	
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer idPaciente) {
-		this.id = idPaciente;
-	}
+	
+	
 	public String getNombre() {
 		return nombre;
 	}
