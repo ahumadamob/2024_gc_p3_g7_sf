@@ -13,5 +13,6 @@ public interface IMutualService {
 	public boolean existsBeneficio(String beneficio);
 	public void eliminar(Integer id);
 	public List<Mutual> filtrarPorBeneficio(String beneficio);
+	public List<Mutual> filtrarPorMutual(String mutual);
 	
 }

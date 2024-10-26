@@ -9,6 +9,6 @@ import imb.gc4.turnero.entity.Mutual;
 
 public interface MutualRepository extends JpaRepository<Mutual, Integer> {
 	
-	List<Mutual> findByBeneficiosContaining(String beneficios);
+	List<Mutual> findByBeneficiosContains(String beneficios);
 	
 }
