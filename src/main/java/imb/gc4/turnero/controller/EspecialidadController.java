@@ -47,10 +47,10 @@ public class EspecialidadController {
 	
 	}
 	
-	@GetMapping("/filtrarEspecialidad/{especialidad}")
-	public List<Especialidad> filtrarPorEspecialidad(@PathVariable("especialidad") String especialidad){
+	@GetMapping("/filtrarEspecialidad/{nombre}")
+	public List<Especialidad> filtrarPorNombre(@PathVariable("nombre") String nombre){
 		
-		return especialidadService.filtrarPorEsecialidad(especialidad);
+		return especialidadService.filtrarPorNombre(nombre);
 		
 	}
 	

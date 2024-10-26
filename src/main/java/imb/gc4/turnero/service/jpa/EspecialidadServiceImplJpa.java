@@ -12,7 +12,6 @@ import imb.gc4.turnero.repository.EspecialidadRepository;
 import imb.gc4.turnero.service.IEspecialidadService;
 
 @Service
-@Primary
 public class EspecialidadServiceImplJpa implements IEspecialidadService {
 	
 	@Autowired
@@ -46,9 +45,9 @@ public class EspecialidadServiceImplJpa implements IEspecialidadService {
 	}
 
 	@Override
-	public List<Especialidad> filtrarPorEsecialidad(String especialidad) {
+	public List<Especialidad> filtrarPorNombre(String nombre) {
 	
-		return repo.findByEspecialidad(especialidad);
+		return repo.findByNombre(nombre);
 	}
 
 }
