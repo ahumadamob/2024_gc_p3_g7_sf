@@ -49,5 +49,16 @@ public class EspecialidadServiceImplJpa implements IEspecialidadService {
 	
 		return repo.findByNombre(nombre);
 	}
-
+	
+	@Override
+	public Especialidad cambiarActividad(Integer id) {
+		Especialidad especialidad = obtenerPorId(id);
+		if (especialidad.getActividad().equals("activa")) {
+			especialidad.setActividad("inactiva");
+			return repo.save(especialidad);
+		}else {
+			especialidad.setActividad("activa");
+			return repo.save(especialidad);
+		}
+	}
 }

@@ -12,5 +12,5 @@ public interface IEspecialidadService {
 	public void eliminar(Integer id);
 	public boolean exists (Integer id);
 	public List<Especialidad> filtrarPorNombre(String nombre);
-
+	public Especialidad cambiarActividad(Integer id);
 }
