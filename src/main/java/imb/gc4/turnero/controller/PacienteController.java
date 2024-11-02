@@ -1,6 +1,8 @@
 package imb.gc4.turnero.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import imb.gc4.turnero.entity.Paciente;
+import imb.gc4.turnero.entity.Profesional;
 import imb.gc4.turnero.exception.PacienteException;
+import imb.gc4.turnero.repository.PacienteRepository;
+import imb.gc4.turnero.repository.ProfesionalRepository;
 import imb.gc4.turnero.service.IPacienteService;
 import imb.gc4.turnero.util.APIResponse;
 import imb.gc4.turnero.util.ResponseUtil;
@@ -26,9 +31,17 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/v1/paciente")
 public class PacienteController {
+	@Autowired
+    private PacienteRepository pacienteRepository;
+
+    private final ProfesionalRepository profesionalRepository;
 
 	@Autowired
 	IPacienteService pacienteServicio;
+
+    PacienteController(ProfesionalRepository profesionalRepository) {
+        this.profesionalRepository = profesionalRepository;
+    }
 
 	@GetMapping
 	public ResponseEntity<APIResponse<List<Paciente>>> mostrarTodos() {
@@ -69,10 +82,46 @@ public class PacienteController {
 	
 	
 	// Verificamos si existe un paciente en función de su ID, en caso de existir,
-			// devolvemos una respuesta de error,
+			// devolvemos una respuesta d he error,
 			// si aún no existe, lo guardamos en el método 'guardarPaciente' y devolvemos
 			// una respuesta existosa mediante
 			// el 'ResponseUtil.created(...)'.
+	
+	
+
+	@PostMapping("/{id}/asignar-profesional")
+	public ResponseEntity<APIResponse<Paciente>> asignarProfesional(
+	        @PathVariable("id") Integer pacienteId, // Cambiado a Integer
+	        @RequestBody Map<String, Long> request) {
+	    
+	    Long profesionalId = request.get("profesionalId");
+
+	    // Validar existencia del paciente
+	    Optional<Paciente> pacienteOptional = pacienteRepository.findById(pacienteId);
+	    if (!pacienteOptional.isPresent()) {
+	        return ResponseUtil.notFound("No se encontró el paciente con id = " + pacienteId);
+	    }
+	    
+	    Paciente paciente = pacienteOptional.get();
+
+	    // Validar existencia del profesional, asegurando la conversión a Integer
+	    Optional<Profesional> profesionalOptional = profesionalRepository.findById(profesionalId.intValue());
+	    if (!profesionalOptional.isPresent()) {
+	        return ResponseUtil.notFound("No se encontró el profesional con id = " + profesionalId);
+	    }
+	    
+	    Profesional profesional = profesionalOptional.get();
+
+	    // Asignar profesional al paciente
+	    paciente.setProfesional(profesional);
+	    pacienteRepository.save(paciente);
+
+	    return ResponseUtil.success(paciente);
+	}
+
+
+
+
 	
 	@PostMapping
 	public ResponseEntity<APIResponse<Paciente>> crearPaciente(@Valid @RequestBody Paciente paciente, BindingResult result) {

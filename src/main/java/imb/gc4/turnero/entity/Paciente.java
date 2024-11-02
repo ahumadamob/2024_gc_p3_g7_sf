@@ -3,6 +3,7 @@ package imb.gc4.turnero.entity;
 import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
@@ -12,7 +13,9 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 public class Paciente extends BaseEntity{
-
+	
+ 
+	
 	@NotBlank(message = "El nombre no puede estar vacío.")
 	@Size(max = 40, message = "El nombre no debe superar los 40 caracteres.")
 	private String nombre;
@@ -42,8 +45,17 @@ public class Paciente extends BaseEntity{
 	@Size(max = 15, message = "Debe ser activo o inactivo el valor asignado")
 	private String estado;
 	
+	@ManyToOne
+	@JoinColumn(name = "profesional_id")
+	private Profesional profesional;
 	
 	
+	public Profesional getProfesional() {
+		return profesional;
+	}
+	public void setProfesional(Profesional profesional) {
+		this.profesional = profesional;
+	}
 	public String getNombre() {
 		return nombre;
 	}
@@ -79,5 +91,9 @@ public class Paciente extends BaseEntity{
 	}
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+	public void setProfesional(Paciente profesional) {
+		// TODO Auto-generated method stub
+		
 	}
 }
