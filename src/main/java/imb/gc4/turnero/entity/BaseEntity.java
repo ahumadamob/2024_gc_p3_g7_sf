@@ -12,21 +12,22 @@ import jakarta.persistence.PreUpdate;
 
 @MappedSuperclass
 public abstract class BaseEntity {
+	
 	  @Id
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    private Integer id;
+	  @GeneratedValue(strategy = GenerationType.IDENTITY)
+	  private Integer id;
 	  @Column(name = "fecha_creacion")
-	    private LocalDateTime fechaCreacion;
+	  private LocalDateTime fechaCreacion;
 	  @Column(name = "fecha_actualizacion")
-	    private LocalDateTime fechaActualizacion;
+	  private LocalDateTime fechaActualizacion;
 	  
 	  @PrePersist
-	    protected void onCreate() {
+	  protected void onCreate() {
 	        fechaCreacion = LocalDateTime.now();
 	    }
 	  
 	  @PreUpdate
-	    protected void onUpdate() {
+	  protected void onUpdate() {
 	        fechaActualizacion = LocalDateTime.now();
 	    }
 	  
