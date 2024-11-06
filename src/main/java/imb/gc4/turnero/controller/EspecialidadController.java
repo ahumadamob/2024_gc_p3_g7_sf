@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.StreamingHttpOutputMessage.Body;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -92,9 +93,15 @@ public class EspecialidadController {
 
 	}
 	@PutMapping("/{id}/activar-inactivar")
-	public ResponseEntity<APIResponse<Especialidad>> cambiarActividad(@PathVariable("id") Integer id) {
-		return (especialidadService.exists(id)) ?  ResponseUtil.created(especialidadService.cambiarActividad(id))
-			       :ResponseUtil.notFound("No se pudo modificar la actividad");
+	public ResponseEntity<APIResponse<Especialidad>> cambiarActividad(@PathVariable("id") Integer id, @RequestBody Especialidad especialidad) {
+		if (especialidadService.exists(id)){
+			Especialidad objeto = especialidadService.obtenerPorId(id);
+			objeto.setActividad(especialidad.isActividad());
+			especialidadService.guardar(objeto);
+			return ResponseUtil.success(objeto);
+		}else {
+			return ResponseUtil.notFound("No se encontro la Especialidad, revise el ID");
+		}
 	}
 	
 	@ExceptionHandler(ConstraintViolationException.class)
