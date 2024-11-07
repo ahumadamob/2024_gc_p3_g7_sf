@@ -2,7 +2,6 @@ package imb.gc4.turnero.controller;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -91,26 +90,24 @@ public class PacienteController {
 
 	@PostMapping("/{id}/asignar-profesional")
 	public ResponseEntity<APIResponse<Paciente>> asignarProfesional(
-	        @PathVariable("id") Integer pacienteId, // Cambiado a Integer
+	        @PathVariable("id") Integer pacienteId,
 	        @RequestBody Map<String, Long> request) {
 	    
 	    Long profesionalId = request.get("profesionalId");
 
 	    // Validar existencia del paciente
-	    Optional<Paciente> pacienteOptional = pacienteRepository.findById(pacienteId);
-	    if (!pacienteOptional.isPresent()) {
+	    if (!pacienteRepository.existsById(pacienteId)) {
 	        return ResponseUtil.notFound("No se encontró el paciente con id = " + pacienteId);
 	    }
-	    
-	    Paciente paciente = pacienteOptional.get();
 
-	    // Validar existencia del profesional, asegurando la conversión a Integer
-	    Optional<Profesional> profesionalOptional = profesionalRepository.findById(profesionalId.intValue());
-	    if (!profesionalOptional.isPresent()) {
+	    // Validar existencia del profesional
+	    if (!profesionalRepository.existsById(profesionalId.intValue())) {
 	        return ResponseUtil.notFound("No se encontró el profesional con id = " + profesionalId);
 	    }
-	    
-	    Profesional profesional = profesionalOptional.get();
+
+	    // Obtener el paciente y el profesional para asignación
+	    Paciente paciente = pacienteRepository.findById(pacienteId).get();
+	    Profesional profesional = profesionalRepository.findById(profesionalId.intValue()).get();
 
 	    // Asignar profesional al paciente
 	    paciente.setProfesional(profesional);
@@ -118,6 +115,7 @@ public class PacienteController {
 
 	    return ResponseUtil.success(paciente);
 	}
+
 
 
 

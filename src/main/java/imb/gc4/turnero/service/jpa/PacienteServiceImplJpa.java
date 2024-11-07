@@ -60,11 +60,7 @@ public class PacienteServiceImplJpa implements IPacienteService {
 		return repo.save(paciente);
 	}
 
-	@Override
-	public Paciente asignarProfesional(Long id, Long profesionalId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 
 

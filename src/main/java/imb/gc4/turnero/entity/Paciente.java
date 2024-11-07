@@ -92,8 +92,5 @@ public class Paciente extends BaseEntity{
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	public void setProfesional(Paciente profesional) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 }
