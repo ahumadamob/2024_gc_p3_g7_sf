@@ -49,5 +49,5 @@ public class EspecialidadServiceImplJpa implements IEspecialidadService {
 	
 		return repo.findByNombre(nombre);
 	}
-
+	
 }

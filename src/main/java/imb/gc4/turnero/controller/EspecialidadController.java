@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.StreamingHttpOutputMessage.Body;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,7 @@ import imb.gc4.turnero.service.IEspecialidadService;
 import imb.gc4.turnero.util.APIResponse;
 import imb.gc4.turnero.util.ResponseUtil;
 import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/especialidad")
@@ -89,7 +92,18 @@ public class EspecialidadController {
 	    }
 
 	}
-		
+	@PutMapping("/{id}/activar-inactivar")
+	public ResponseEntity<APIResponse<Especialidad>> cambiarActividad(@PathVariable("id") Integer id, @RequestBody Especialidad especialidad) {
+		if (especialidadService.exists(id)){
+			Especialidad objeto = especialidadService.obtenerPorId(id);
+			objeto.setActividad(especialidad.isActividad());
+			especialidadService.guardar(objeto);
+			return ResponseUtil.success(objeto);
+		}else {
+			return ResponseUtil.notFound("No se encontro la Especialidad, revise el ID");
+		}
+	}
+	
 	@ExceptionHandler(ConstraintViolationException.class)
 	public ResponseEntity<APIResponse<Object>> handleConstraintViolationException(ConstraintViolationException ex){
 		return ResponseUtil.handleConstraintException(ex);
