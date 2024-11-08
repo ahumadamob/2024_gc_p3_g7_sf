@@ -34,7 +34,7 @@ public class Turno extends BaseEntity {
     
     @NotNull
     private String estado;
-    @NotNull
+ 
     private String motivoCancelacion;
 
     // Getters and setters
