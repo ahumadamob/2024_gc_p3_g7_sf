@@ -13,5 +13,6 @@ public interface ITurnoService {
 	public void eliminar (Integer id);
 	public boolean existe (Integer id);
 	public List<Turno> filtrarPorFecha(LocalDateTime startDate, LocalDateTime endDate);
+	public Turno cancelarTurno(Integer idTurno, String motivo);
 
 }

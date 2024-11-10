@@ -2,6 +2,8 @@ package imb.gc4.turnero.service.jpa;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -49,4 +51,16 @@ public class TurnoServiceImplJpa implements ITurnoService{
         return repo.findByFechaYHoraBetween(startDate, endDate);
     }
 
+	@Override
+	public Turno cancelarTurno(Integer idTurno, String motivo) {
+		Optional<Turno> turnoOpt = repo.findById(idTurno); 
+        if (turnoOpt.isPresent()) {
+            Turno turno = turnoOpt.get();
+            turno.setEstado("CANCELADO");
+            turno.setMotivoCancelacion(motivo);
+            return repo.save(turno);
+        } else {
+            throw new NoSuchElementException("El turno con ID " + idTurno + " no fue encontrado.");
+        }
+    }
 }

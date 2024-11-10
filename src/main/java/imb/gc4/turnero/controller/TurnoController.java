@@ -2,8 +2,11 @@ package imb.gc4.turnero.controller;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -43,6 +46,29 @@ public class TurnoController {
 				? ResponseUtil.success(turnoService.buscarPorId(id))
 				: ResponseUtil.notFound("No se encontró un turno con id " + id.toString() + ".");	
 	}
+	
+	@PostMapping("/cancelar")
+	public ResponseEntity<String> cancelarTurno(@RequestBody Map<String, Object> request) {
+	    try {
+	        Integer idTurno = (Integer) request.get("idTurno");
+	        String motivo = (String) request.get("motivo");
+
+	        if (idTurno == null || motivo == null || motivo.trim().isEmpty()) {
+	            throw new IllegalArgumentException("idTurno y motivo son campos obligatorios.");
+	        }
+
+	        turnoService.cancelarTurno(idTurno, motivo);
+	        
+	        return ResponseEntity.ok("El turno ha sido cancelado exitosamente.");
+	    } catch (NoSuchElementException e) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El turno con ID " + request.get("idTurno") + " no fue encontrado.");
+	    } catch (IllegalArgumentException e) {
+	        return ResponseEntity.badRequest().body("Datos de solicitud inválidos: " + e.getMessage());
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Se produjo un error al cancelar el turno.");
+	    }
+	}
+
 	
 	@PostMapping
 	public ResponseEntity<APIResponse<Turno>> crearTurno(@RequestBody Turno turno) {

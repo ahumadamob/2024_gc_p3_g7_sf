@@ -31,11 +31,32 @@ public class Turno extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "profesionalId")
     private Profesional profesional;
+    
+    @NotNull
+    private String estado;
+ 
+    private String motivoCancelacion;
 
     // Getters and setters
     // Constructor with necessary fields
 
-    // Constructor vacío
+    public String isEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public String getMotivoCancelacion() {
+		return motivoCancelacion;
+	}
+
+	public void setMotivoCancelacion(String motivoCancelacion) {
+		this.motivoCancelacion = motivoCancelacion;
+	}
+
+	// Constructor vacío
     public Turno() {}
 
     // Constructor con parámetros
@@ -87,4 +108,5 @@ public class Turno extends BaseEntity {
     public void setProfesional(Profesional profesional) {
         this.profesional = profesional;
     }
+
 }

@@ -1,8 +1,12 @@
 package imb.gc4.turnero.entity;
 
+
+
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -20,10 +24,10 @@ public class Profesional extends BaseEntity {
     @Size(max = 60, message = "El apellido no debe superar los 60 caracteres")
     private String apellidoProfesional;
 
-    @ManyToOne
-    private Turno turno;
-
-    @NotNull(message = "La especialidad no puede ser nula")
+    @OneToMany
+    private List<Turno> turnos;
+    
+	@NotNull(message = "La especialidad no puede ser nula")
     @OneToOne
     @JoinColumn(name="especialidadId")
     private Especialidad especialidad;
@@ -47,6 +51,10 @@ public class Profesional extends BaseEntity {
 		this.especialidad = especialidad;
 	}
 	
-
-	
+	public List<Turno> getTurnos() {
+		return turnos;
+	}
+	public void setTurnos(List<Turno> turnos) {
+		this.turnos = turnos;
+	}
 }
