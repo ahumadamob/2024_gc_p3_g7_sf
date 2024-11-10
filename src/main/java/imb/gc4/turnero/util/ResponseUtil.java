@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import imb.gc4.turnero.entity.Paciente;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 
@@ -19,6 +20,7 @@ public class ResponseUtil {
         APIResponse<T> response = new APIResponse<>(HttpStatus.OK.value(), null, data);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+   
 
     public static <T> ResponseEntity<APIResponse<T>> created(T data) {
         APIResponse<T> response = new APIResponse<>(HttpStatus.CREATED.value(), null, data);
@@ -75,4 +77,14 @@ public class ResponseUtil {
         return messages;
 
     }
+
+    public static ResponseEntity<?> success(Paciente paciente, String message) {
+        return ResponseEntity.ok()
+                .header("message", message)
+                .body(paciente);
+    }
+
+	
+
+   
 }

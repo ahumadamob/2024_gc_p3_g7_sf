@@ -11,8 +11,8 @@ public interface IPacienteService {
 	public Paciente guardarPaciente(Paciente paciente);
 	public void eliminarPaciente(Integer id);
 	public boolean exists(Integer id);
-	
+
 	public List<Paciente> filtrarPorNombre(String filtro);
 	public Paciente actualizarEstado (Integer id, String estado);
-
+	public Paciente asignarProfesional(Long id, Long profesionalId);
 }
