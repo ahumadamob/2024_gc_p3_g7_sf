@@ -1,6 +1,7 @@
 package imb.gc4.turnero.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -83,8 +84,17 @@ public class ResponseUtil {
                 .header("message", message)
                 .body(paciente);
     }
+    public static ResponseEntity<APIResponse<Paciente>> internalServerError(String message) {
+        // Crear una lista con el mensaje de error
+        List<String> messages = Collections.singletonList(message);
 
-	
+        // Crear una respuesta con el código de estado 500 y los mensajes de error
+        APIResponse<Paciente> response = new APIResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), messages, null);
+
+        // Retornar la respuesta con el código 500
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    }
+
 
    
 }

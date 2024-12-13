@@ -15,4 +15,8 @@ public interface IPacienteService {
 	public List<Paciente> filtrarPorNombre(String filtro);
 	public Paciente actualizarEstado (Integer id, String estado);
 	public Paciente asignarProfesional(Long id, Long profesionalId);
+	
+    // Método para registrar un paciente
+    Paciente registrarPaciente(Paciente paciente);
+
 }

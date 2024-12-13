@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import imb.gc4.turnero.entity.Mutual;
 import imb.gc4.turnero.entity.Paciente;
 import imb.gc4.turnero.entity.Profesional;
 import imb.gc4.turnero.exception.PacienteException;
@@ -37,6 +38,8 @@ public class PacienteController {
 
 	@Autowired
 	IPacienteService pacienteServicio;
+	
+	
 
     PacienteController(ProfesionalRepository profesionalRepository) {
         this.profesionalRepository = profesionalRepository;
@@ -115,11 +118,19 @@ public class PacienteController {
 
 	    return ResponseUtil.success(paciente);
 	}
+	
+	
 
-
-
-
-
+	@PostMapping("/registrar")
+	public ResponseEntity<APIResponse<Paciente>> registrarPaciente(@RequestBody Paciente paciente) {
+	    // Llamada al servicio para registrar el paciente
+	    Paciente pacienteRegistrado = pacienteServicio.registrarPaciente(paciente);
+	    
+	    // Si la respuesta es exitosa, se retorna con un código 200
+	    return ResponseUtil.success(pacienteRegistrado);
+	}
+	
+	
 	
 	@PostMapping
 	public ResponseEntity<APIResponse<Paciente>> crearPaciente(@Valid @RequestBody Paciente paciente, BindingResult result) {
