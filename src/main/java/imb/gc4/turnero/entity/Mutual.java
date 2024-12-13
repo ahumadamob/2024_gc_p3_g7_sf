@@ -37,6 +37,7 @@ longitud a un máximo de 20 carácteres
 	@Size(max = 20, message = "El nombre de la mutual no debe exceder los 20 caracteres.")
 	private String nombre;
 	private String beneficios;
+	 private String estado;
 	
 /* Los getter son un método que se utiliza para obtener el valor de un atributo privado.
 El nombre empieza con "get" seguido del nombre del atributo del valor que se desea recuperar.
@@ -67,5 +68,12 @@ Permiten la escritura de datos e incluye lógica de validación y control para m
 	public void setBeneficios(String beneficios) {
 		this.beneficios = beneficios;
 	}
-	
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 }

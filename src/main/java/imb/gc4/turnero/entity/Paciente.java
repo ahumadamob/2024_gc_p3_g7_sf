@@ -91,5 +91,9 @@ public class Paciente extends BaseEntity{
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
+	public BaseEntity getMutual() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
